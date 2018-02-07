@@ -103,7 +103,7 @@ var todoList = {
 				}
 			});
 
-			}
+			
 			// Display all todos.
 			// this.displayTodos();	
 		}
