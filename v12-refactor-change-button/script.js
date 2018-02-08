@@ -146,11 +146,21 @@ var handlers = {
 		view.displayTodos();
 	},
 	// 2. It should have working controls for .changeTodo
-	changeTodo: function() {
-		var changeTodoPositionInput = document.getElementById("changeTodoPositionInput");
+	changeTodo: function(position) {
+		// Position input will no longer need to input manually by user.
+		// var changeTodoPositionInput = document.getElementById("changeTodoPositionInput");
+
 		var changeTodoTextInput = document.getElementById("changeTodoTextInput");
-		todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);		
-		changeTodoPositionInput.value = "";
+
+		// No longer needed.
+		// todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);		
+		
+		// Position will be a parameter for the method.
+		todoList.changeTodo(position, changeTodoTextInput.value);	
+
+		// No longer needed.
+		// changeTodoPositionInput.value = "";
+
 		changeTodoTextInput.value = "";
 		// Renders todos on html for any changes made.
 		view.displayTodos();
@@ -262,19 +272,18 @@ var view = {
 			// Comment for code below: Add .todoText property content to each li.
 			// Code was improved(see above): todoLi.textContent = todoList.todos[i].todoText;
 			
-			// Append delete button to li e
+			// Append delete button to li element.
 			todoLi.appendChild(this.createDeleteButton());
+			// Append change button to li element.
+			todoLi.appendChild(this.createChangeButton());
+
+			todoLi.appendChild(this.createInputForChangeButton(position));
+
 			// Append li element as a child of ul element already in html.
 			todosUl.appendChild(todoLi);			
 		}, this);
 	},
-
-	// V10 Requirements
 	// 1. There should be a way to create delete buttons.
-	// 2. There should be a delete button for each todo.
-	// 3. Each li should have an id that has the todo position.
-	// 4. Delete buttons should have access to the todo id.
-	// 5. Clicking delete should update todoList.todos and the DOM.
 	createDeleteButton: function() {
 		// Creates button element.
 		var deleteButton = document.createElement('button');
@@ -296,6 +305,16 @@ var view = {
 		// Create 'Change' button when called.
 		return changeButton;
 	},
+	createInputForChangeButton: function(position) {
+		// Creates the input element.
+		var inputForChange = document.createElement('input');
+		// Input will have id='changeTodoTextInput'.
+		inputForChange.id = "changeTodoTextInput" + position;
+		// Input will have type='text'.
+		inputForChange.type = "text";
+		// Create input element when method is called. 
+		return inputForChange; 
+	},
 	// DOM Event Delegation.
 	setUpEventListeners: function() {
 		// Access ul element by query selector.
@@ -314,7 +333,11 @@ var view = {
 				// Position is string id from Parent li element.
 				// Need to convert string to integer number. 
 				handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
-			}		
+			}	
+
+			if (elementClicked.className === 'changeButton') {
+				handlers.changeTodo(parseInt(elementClicked.parentNode.id));
+			}	
 		});
 	}
 };
