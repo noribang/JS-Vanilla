@@ -150,7 +150,7 @@ var handlers = {
 		// Position input will no longer need to input manually by user.
 		// var changeTodoPositionInput = document.getElementById("changeTodoPositionInput");
 
-		var changeTodoTextInput = document.getElementById("changeTodoTextInput");
+		var changeTodoTextInput = document.getElementById("changeTodoTextInput" + position);
 
 		// No longer needed.
 		// todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);		
